@@ -1,0 +1,13 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "description": "A repo containing my solutions for the Advent of Code challenges",
+  "keywords": ["Advent of Code"],
+  "author": "Justin Bordage",
+  "license": "ISC",
+  "devDependencies": {
+	  "@types/node": "^20.10.6",
+	  "ts-node": "^10.9.2",
+	  "typescript": "^5.3.3"
+  }
+}
