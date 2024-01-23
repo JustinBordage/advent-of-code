@@ -71,6 +71,7 @@ function sumOfAllScratchCardCopies(scratchCards: ScratchCard[]): number {
 	return sumOf(Array.from(cardCopies.values()));
 }
 
+// ===== Day 4: Scratchcards =====
 async function executeAdventOfCodeDay4() {
 	const scratchCards = (await extractFileLines("./input.txt", __dirname))
 		.map(parseScratchCard);

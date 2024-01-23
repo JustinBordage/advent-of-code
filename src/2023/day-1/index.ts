@@ -37,6 +37,7 @@ function calcCalibrationSum(rawCalibrationValues: string[]): number {
 	}, 0);
 }
 
+// ===== Day 1: Trebuchet?! =====
 async function executeAdventOfCodeDay1() {
 	const inputData = (await extractFileLines("./input.txt", __dirname));
 	const substitutedInputData = inputData.map(substituteTextDigits);

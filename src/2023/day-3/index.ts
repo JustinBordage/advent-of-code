@@ -81,6 +81,7 @@ function sumOfGearRatios(symbolParts: SymbolParts[]): number {
 		}, 0);
 }
 
+// ===== Day 3: Gear Ratios =====
 async function executeAdventOfCodeDay3() {
 	const rawInputData = await extractFileLines("./input.txt", __dirname);
 
