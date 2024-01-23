@@ -4,7 +4,8 @@
 	"description": "A repo containing my solutions for the Advent of Code challenges",
 	"scripts": {
 		"day-1": "npx ts-node ./src/2023/day-1",
-		"day-2": "npx ts-node ./src/2023/day-2"
+		"day-2": "npx ts-node ./src/2023/day-2",
+		"day-3": "npx ts-node ./src/2023/day-3"
 	},
 	"keywords": ["Advent of Code"],
 	"author": "Justin Bordage",
