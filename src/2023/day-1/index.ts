@@ -27,7 +27,7 @@ function substituteTextDigits(rawVal: string): string {
 	// replacing the first and last matches.
 	return rawVal.replace(
 		SUBSTITUTION_PATTERN,
-		(_, match) => `${SUBSTITUTIONS[match] ?? ''}`
+		(_, match) => `${SUBSTITUTIONS[match]}`
 	);
 }
 
