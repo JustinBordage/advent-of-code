@@ -46,6 +46,4 @@ async function executeAdventOfCodeDay1() {
 	console.log({ partOneAnswer, partTwoAnswer });
 }
 
-// Part 1 Answer: 53080
-// Part 2 Answer: 53268
 executeAdventOfCodeDay1();

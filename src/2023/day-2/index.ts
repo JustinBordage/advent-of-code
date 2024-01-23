@@ -92,7 +92,5 @@ async function executeAdventOfCodeDay2() {
 	console.log({ partOneAnswer, partTwoAnswer });
 }
 
-// Part 1 Answer: 2317
-// Part 2 Answer: 74804
 executeAdventOfCodeDay2();
 
