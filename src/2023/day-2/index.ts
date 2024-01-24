@@ -78,6 +78,7 @@ function calcSumOfCubeSetPower(inputData: GameData[]) {
 }
 
 // ===== Day 2: Cube Conundrum =====
+// https://adventofcode.com/2023/day/2
 async function executeAdventOfCodeDay2() {
 	const inputData = (await extractFileLines("./input.txt", __dirname))
 		.map(parseGameData);

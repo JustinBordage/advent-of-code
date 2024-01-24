@@ -82,6 +82,7 @@ function sumOfGearRatios(symbolParts: SymbolParts[]): number {
 }
 
 // ===== Day 3: Gear Ratios =====
+// https://adventofcode.com/2023/day/3
 async function executeAdventOfCodeDay3() {
 	const rawInputData = await extractFileLines("./input.txt", __dirname);
 

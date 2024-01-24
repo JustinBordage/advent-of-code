@@ -72,6 +72,7 @@ function sumOfAllScratchCardCopies(scratchCards: ScratchCard[]): number {
 }
 
 // ===== Day 4: Scratchcards =====
+// https://adventofcode.com/2023/day/4
 async function executeAdventOfCodeDay4() {
 	const scratchCards = (await extractFileLines("./input.txt", __dirname))
 		.map(parseScratchCard);
