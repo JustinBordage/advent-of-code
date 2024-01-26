@@ -2,27 +2,13 @@ import path from "path";
 import fs from "fs";
 import readline from "readline";
 
-/** Determines if the provided filepath is a relative path. */
-function isRelativePath(filepath: string): boolean {
-	return /^\.{1,2}[\/\\]/.test(filepath);
-}
-
 /** Extracts all the lines from an Advent of Code
  *  "input.txt" file and formats it into a string array.
  *
  *  @param filepath {string}
- *  @param dirname {string | undefined} Only required if the filepath is a relative path. */
-export async function extractFileLines(filepath: string, dirname?: string): Promise<string[]> {
-	const paths = [filepath];
-	if (isRelativePath(filepath)) {
-		if (!dirname) {
-			throw new Error("A relative filepath MUST also have the `__dirname` passed in as the second argument.");
-		}
-
-		paths.unshift(dirname);
-	}
-
-	const resolvedFilepath = path.resolve(...paths);
+ *  @param dirname {string} A global NodeJS variable, Syntax: `__dirname`. */
+export async function extractFileLines(filepath: string, dirname: string): Promise<string[]> {
+	const resolvedFilepath = path.resolve(dirname, filepath);
 	const filestream = fs.createReadStream(resolvedFilepath);
 	const lineReader = readline.createInterface({
 		input: filestream,
