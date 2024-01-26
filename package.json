@@ -6,7 +6,8 @@
 		"day-1": "npx ts-node ./src/2023/day-1",
 		"day-2": "npx ts-node ./src/2023/day-2",
 		"day-3": "npx ts-node ./src/2023/day-3",
-		"day-4": "npx ts-node ./src/2023/day-4"
+		"day-4": "npx ts-node ./src/2023/day-4",
+		"day-5": "npx ts-node ./src/2023/day-5"
 	},
 	"keywords": ["Advent of Code"],
 	"author": "Justin Bordage",
