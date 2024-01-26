@@ -85,6 +85,10 @@ async function executeAdventOfCodeDay2() {
 
 	const partOneAnswer = calcIdSumOfPossibleGames(availColorQuantities, inputData);
 	const partTwoAnswer = calcSumOfCubeSetPower(inputData);
+
+	// Status of challenge:
+	//  Part 1 - Solved
+	//  Part 2 - Solved
 	console.log({ partOneAnswer, partTwoAnswer });
 }
 

@@ -79,6 +79,10 @@ async function executeAdventOfCodeDay4() {
 
 	const partOneAnswer = sumOfScratchCardPoints(scratchCards);
 	const partTwoAnswer = sumOfAllScratchCardCopies(scratchCards);
+
+	// Status of challenge:
+	//  Part 1 - Solved
+	//  Part 2 - Solved
 	console.log({ partOneAnswer, partTwoAnswer });
 }
 

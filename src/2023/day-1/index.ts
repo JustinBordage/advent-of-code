@@ -45,6 +45,10 @@ async function executeAdventOfCodeDay1() {
 
 	const partOneAnswer = calcCalibrationSum(inputData);
 	const partTwoAnswer = calcCalibrationSum(substitutedInputData);
+
+	// Status of challenge:
+	//  Part 1 - Solved
+	//  Part 2 - Solved
 	console.log({ partOneAnswer, partTwoAnswer });
 }
 

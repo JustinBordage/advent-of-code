@@ -91,6 +91,10 @@ async function executeAdventOfCodeDay3() {
 
 	const partOneAnswer = sumOfPartNumbers(symbolParts);
 	const partTwoAnswer = sumOfGearRatios(symbolParts);
+
+	// Status of challenge:
+	//  Part 1 - Solved
+	//  Part 2 - Solved
 	console.log({ partOneAnswer, partTwoAnswer });
 }
 
