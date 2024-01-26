@@ -1,2 +1,5 @@
 /node_modules
 /.idea
+/**/example-input.txt
+/**/test-input.txt
+/src/puzzle-answers.json
