@@ -9,8 +9,6 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
 
-const DEFAULT_ADVENT_OF_CODE_YEAR = "2023";
-
 const COLOR_RED = "\x1b[31m";
 const COLOR_RESET = "\x1b[0m";
 
@@ -42,9 +40,16 @@ function getCommandArgByPattern(regex, defaultValue) {
 	return process.argv.find(arg => regex.test(arg)) ?? defaultValue;
 }
 
+const DECEMBER = 11;
+function getDefaultYear() {
+	const today = new Date();
+	const yearOffset = today.getMonth() === DECEMBER ? 0 : 1;
+	return `${today.getFullYear() - yearOffset}`;
+}
+
 function executeAdventOfCodeChallenge() {
 	const adventDay = getCommandArgByPattern(/day-\d+/, null);
-	let adventYear = getCommandArgByPattern(/y(\d{2}|\d{4})/, DEFAULT_ADVENT_OF_CODE_YEAR);
+	let adventYear = getCommandArgByPattern(/y(\d{2}|\d{4})/, getDefaultYear());
 
 	if (!adventDay) {
 		logError("The Advent of Code day is missing or invalid!\nPlease ensure 'day-#' is present within the command.")
