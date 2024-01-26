@@ -1,11 +1,5 @@
 import { extractFileLines } from "../../common/helpers";
-
-type SetResult = { color: string, quantity: number };
-type ColorQuantityResults = Record<string, number[]>;
-type GameData = {
-	gameId: number;
-	results: ColorQuantityResults;
-}
+import { ColorQuantities, ColorQuantityResults, GameData, SetResult } from "./types";
 
 function parseSetResult(setResult: string): SetResult {
 	const [rawQuantity, color] = setResult.split(" ");
@@ -48,13 +42,13 @@ function extractHighestColorResults(results: ColorQuantityResults): SetResult[] 
 				 }));
 }
 
-function isPossibleGame(availColorQuantities: Record<string, number>, highestColorSetResults: SetResult[]) {
+function isPossibleGame(availColorQuantities: ColorQuantities, highestColorSetResults: SetResult[]) {
 	return highestColorSetResults.every(({ color, quantity }) => (
 		quantity <= (availColorQuantities[color] ?? 0)
 	));
 }
 
-function calcIdSumOfPossibleGames(availColorQuantities: Record<string, number>, inputData: GameData[]): number {
+function calcIdSumOfPossibleGames(availColorQuantities: ColorQuantities, inputData: GameData[]): number {
 	return inputData.reduce((gameIdSum, { gameId, results }) => {
 		const highestColorSetResults = extractHighestColorResults(results);
 
@@ -83,7 +77,7 @@ async function executeAdventOfCodeDay2() {
 	const inputData = (await extractFileLines("./input.txt", __dirname))
 		.map(parseGameData);
 
-	const availColorQuantities = {
+	const availColorQuantities: ColorQuantities = {
 		"red": 12,
 		"green": 13,
 		"blue": 14,
