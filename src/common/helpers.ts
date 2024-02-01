@@ -33,4 +33,9 @@ export function sumOf(numbers: number[]) {
 	return numbers.reduce(add);
 }
 
-
+/** Performs `String.prototype.padStart` on a number.
+ *
+ *  @remark This is intended for formatting logged data. */
+export function numPadStart(num: number, length: number, fillString: string = " ") {
+	return num.toString().padStart(length, fillString);
+}
