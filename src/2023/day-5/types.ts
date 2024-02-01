@@ -1,31 +1,35 @@
 export type Almanac = {
 	seeds: number[];
-	conversionMaps: ConversionMap[];
+	conversionTables: ConversionTable[];
 };
 
-export type ConversionMap = {
+export type ConversionTable = {
 	sourceType: string; // "seed" in "seed-to-soil map:"
 	targetType: string; // "soil" in "seed-to-soil map:"
 	data: ConversionData[];
 };
 
 export type ConversionData = {
-	targetStart: number;
+	/** The starting range of the source (Inclusive) */
 	sourceStart: number;
-	/** Number of values in range (Including the start) */
-	rangeLength: number;
-	/** The difference between the targetStart & the sourceStart */
-	startDelta: number;
+	/** The ending range of the source (Inclusive) */
+	sourceEnd: number;
+	targetStart: number;
+	targetEnd: number;
+	/** The amount to increment the source
+	 *  value by to find to target value. */
+	incrementBy: number;
 }
 
-export type ConversionStep = {
-	/** "seed", "soil", "location", etc. */
-	type: string;
-	/** The current value according to the type. */
-	value: number;
-}
+export type ConversionRange = {
+	/** The amount to increment the source
+	 *  value by to find the target value. */
+	incrementBy: number;
+} & Range;
 
-export type SeedRange = {
-	rangeStart: number;
-	rangeLength: number;
-}
+export type Range = {
+	/** The start of the range (Inclusive) */
+	start: number,
+	/** The end of the range (Inclusive) */
+	end: number
+};
