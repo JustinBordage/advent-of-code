@@ -1,6 +1,5 @@
 /node_modules
 /.idea
-/**/example-input.txt
-/**/test-input.txt
+/**/*input.txt
 /src/puzzle-answers.json
 /src/**/old
