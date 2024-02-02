@@ -1,4 +1,4 @@
-import { Almanac, ConversionData, ConversionTable } from "./types";
+import { Almanac, ConversionRow, ConversionTable } from "./types";
 
 const SEEDS_PREFIX_LENGTH = 7;
 
@@ -11,32 +11,36 @@ function parseSeeds(rawSeeds: string): number[] {
 }
 
 function parseConversionTable(rawMap: string): ConversionTable {
-	const [rawConvertTypes, rawConvertData] = rawMap.split("map:\n");
+	const [rawConvertTypes, rawConvertRows] = rawMap.split("map:\n");
 
-	const [sourceType, targetType] = rawConvertTypes
+	const [sourceType, destinationType] = rawConvertTypes
 		.match(/(\w+)-to-(\w+)/)!!
 		.slice(1);
 
-	const conversionValues = Array
-		.from(rawConvertData.matchAll(/(\d+)\s+(\d+)\s+(\d+)/g))
-		.map<ConversionData>(match => {
-			const [targetStart, sourceStart, rangeLength] = match
+	const conversionRows = Array
+		.from(rawConvertRows.matchAll(/(\d+)\s+(\d+)\s+(\d+)/g))
+		.map<ConversionRow>(match => {
+			const [destinationStart, sourceStart, rangeLength] = match
 				.slice(1)
 				.map(val => parseInt(val));
 
 			return {
-				sourceStart,
-				sourceEnd: (sourceStart + rangeLength - 1),
-				targetStart,
-				targetEnd: (targetStart + rangeLength - 1),
-				incrementBy: targetStart - sourceStart,
+				source: {
+					start: sourceStart,
+					end: (sourceStart + rangeLength - 1),
+				},
+				destination: {
+					start: destinationStart,
+					end: (destinationStart + rangeLength - 1),
+				},
+				incrementBy: destinationStart - sourceStart,
 			}
 		});
 
 	return {
 		sourceType,
-		targetType,
-		data: conversionValues,
+		destinationType,
+		rows: conversionRows,
 	};
 }
 

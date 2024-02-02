@@ -48,70 +48,73 @@ function trimIntersectingRanges(rangeToTrim: ConversionRange, otherRanges: Conve
 	}, [rangeToTrim]);
 }
 
-function mergeConversionTables(source: ConversionTable, target: ConversionTable): ConversionTable {
-	if (source.targetType != target.sourceType) {
-		throw new Error("Merge is not possible, the target & source types don't match!");
+function mergeConversionTables(sourceTable: ConversionTable, destTable: ConversionTable): ConversionTable {
+	if (sourceTable.destinationType != destTable.sourceType) {
+		throw new Error("Merge is not possible, the destination & source types don't match!");
 	}
 
 	const intersectRanges: ConversionRange[] = [];
 	const trimmedRanges: ConversionRange[] = [];
-	const sourceRanges = source.data.map<ConversionRange>(sRange => ({
-		start: sRange.targetStart,
-		end: sRange.targetEnd,
-		incrementBy: sRange.incrementBy
+	const sourceRanges = sourceTable.rows.map<ConversionRange>(({ destination, incrementBy }) => ({
+		start: destination.start,
+		end: destination.end,
+		incrementBy: incrementBy
 	}));
 
-	target.data
-	      .forEach(({ sourceStart, sourceEnd, incrementBy }) => {
-		      const targetRange: ConversionRange = { start: sourceStart, end: sourceEnd, incrementBy };
-		      const overlappingSourceRanges = sourceRanges.filter(sourceRange => hasOverlap(targetRange, sourceRange));
+	destTable.rows
+	      .forEach(({ source, incrementBy: destIncrementBy }) => {
+		      const destRange: ConversionRange = { start: source.start, end: source.end, incrementBy: destIncrementBy };
+		      const overlappingSourceRanges = sourceRanges.filter(sourceRange => hasOverlap(destRange, sourceRange));
 
-		      // Adds the non-intersecting parts of the target ranges to the new list of conversions.
-		      trimmedRanges.push(...trimIntersectingRanges(targetRange, overlappingSourceRanges));
+		      // Adds the non-intersecting parts of the destination ranges to the new list of conversions.
+		      trimmedRanges.push(...trimIntersectingRanges(destRange, overlappingSourceRanges));
 
-		      // Adds the intersecting parts of the target ranges
+		      // Adds the intersecting parts of the destination ranges
 		      // to the list of intersecting conversion ranges.
-		      const targetIncrementBy = targetRange.incrementBy;
 		      overlappingSourceRanges
 			      .forEach(({ incrementBy: sourceIncrementBy, ...sourceRange }) => {
-				      const intersectRange = getIntersectingRange(sourceRange, targetRange);
+				      const intersectRange = getIntersectingRange(sourceRange, destRange);
 				      if (intersectRange === null) return;
 
 				      intersectRanges.push({
 					      start: intersectRange.start - sourceIncrementBy,
 					      end: intersectRange.end - sourceIncrementBy,
-					      incrementBy: targetIncrementBy + sourceIncrementBy,
+					      incrementBy: destIncrementBy + sourceIncrementBy,
 				      });
 			      });
 	      });
 
 	// Adds the non-intersecting parts of the source
 	// ranges to the new list of conversions.
-	source.data
-		.forEach(({ sourceStart, sourceEnd, incrementBy }) => {
+	sourceTable.rows
+		.forEach(({ source, incrementBy }) => {
 			// This is NOT the same as "sourceRanges" declared above. This
-			// one uses "source(Start/End)" instead of "target(Start/End).
-			const sourceRange: ConversionRange = { start: sourceStart, end: sourceEnd, incrementBy };
+			// loop uses the "source" range instead of the "destination" range.
+			const sourceRange: ConversionRange = { start: source.start, end: source.end, incrementBy };
 			trimmedRanges.push(...trimIntersectingRanges(sourceRange, intersectRanges));
 		});
 
 	return {
-		sourceType: source.sourceType,
-		targetType: target.targetType,
-		data: trimmedRanges
+		sourceType: sourceTable.sourceType,
+		destinationType: destTable.destinationType,
+		rows: trimmedRanges
 			.concat(...intersectRanges)
 			.map(({ start, end, incrementBy }) => ({
-				sourceStart: start,
-				sourceEnd: end,
-				targetStart: start + incrementBy,
-				targetEnd: end + incrementBy,
+				source: {
+					start,
+					end
+				},
+				destination: {
+					start: start + incrementBy,
+					end: end + incrementBy,
+				},
 				incrementBy: incrementBy,
 			})),
 	};
 }
 
-function findTableOfSourceType(conversionTables: ConversionTable[], desiredSourceType: string): ConversionTable | null {
-	return conversionTables.find(({ sourceType }) => sourceType === desiredSourceType) ?? null;
+function findTableOfSourceType(conversionTables: ConversionTable[], targetType: string): ConversionTable | null {
+	return conversionTables.find(({ sourceType }) => sourceType === targetType) ?? null;
 }
 
 /** While this flatten function is faster than my
@@ -119,19 +122,19 @@ function findTableOfSourceType(conversionTables: ConversionTable[], desiredSourc
  *  of nested loops, which is less than satisfactory.
  *
  *  I'll revisit this at a later date to make it better. */
-export function flattenConversionTables(conversionTables: ConversionTable[], targetType: string): ConversionTable {
+export function flattenConversionTables(conversionTables: ConversionTable[], destinationType: string): ConversionTable {
 	let currConversionTable = findTableOfSourceType(conversionTables, "seed");
 	if (currConversionTable === null) throw new Error("Initial Seed table not found!");
 
-	while (currConversionTable.targetType !== targetType) {
-		const { targetType } = currConversionTable;
-		const targetTable = findTableOfSourceType(conversionTables, targetType);
+	while (currConversionTable.destinationType !== destinationType) {
+		const { destinationType } = currConversionTable;
+		const destinationTable = findTableOfSourceType(conversionTables, destinationType);
 
-		if (targetTable === null) {
-			throw new Error(`Failed to merge table @ step '${targetType}'`);
+		if (destinationTable === null) {
+			throw new Error(`Failed to merge table @ step '${destinationType}'`);
 		}
 
-		currConversionTable = mergeConversionTables(currConversionTable, targetTable);
+		currConversionTable = mergeConversionTables(currConversionTable, destinationTable);
 	}
 
 	return currConversionTable

@@ -1,16 +1,16 @@
 import { extractFileLines } from "../../common/helpers";
 import { parseAlmanac } from "./parser";
 import { flattenConversionTables } from "./optimizer";
-import { ConversionTable, ConversionData, Range } from "./types";
+import { ConversionTable, Range } from "./types";
 
 // ======= Part 1 =======
 
 function convertValueToType(conversionTable: ConversionTable, value: number): number {
-	const conversion = conversionTable.data.find(({ sourceStart, sourceEnd }) => {
-		return value >= sourceStart && value <= sourceEnd;
+	const conversionRow = conversionTable.rows.find(({ source }) => {
+		return value >= source.start && value <= source.end;
 	});
 
-	return value + (conversion?.incrementBy ?? 0);
+	return value + (conversionRow?.incrementBy ?? 0);
 }
 
 export function findLowestSeedLocation(seeds: number[], seedToLocationTable: ConversionTable): number {
@@ -38,25 +38,25 @@ export function extractSeedRanges(seeds: number[]): Range[] {
 }
 
 /** Finds the lowest point where the ranges intersect, or return null if they don't intersect. */
-function findLowestIntersectionPoint(seedRange: Range, conversionRange: ConversionData): number | null {
-	const lowerBound = Math.max(seedRange.start, conversionRange.sourceStart);
-	const upperBound = Math.min(seedRange.end, conversionRange.sourceEnd);
+function findLowestIntersectionPoint(seedRange: Range, conversionRange: Range): number | null {
+	const lowerBound = Math.max(seedRange.start, conversionRange.start);
+	const upperBound = Math.min(seedRange.end, conversionRange.end);
 	return lowerBound <= upperBound ? lowerBound : null;
 }
 
 export function findLowestSeedLocationInSeedRanges(seeds: number[], seedToLocationTable: ConversionTable): number {
-	const targetConversionData = seedToLocationTable.data.sort((tableA, tableB) => tableA.targetStart - tableB.targetStart);
+	const targetConversionRows = seedToLocationTable.rows.sort((tableA, tableB) => tableA.destination.start - tableB.destination.start);
 	const seedRanges = extractSeedRanges(seeds);
 
 	const intersections: number[] = [];
 	let index = 0;
 
-	while (intersections.length === 0 && index < targetConversionData.length) {
-		const conversionRange = targetConversionData[index];
+	while (intersections.length === 0 && index < targetConversionRows.length) {
+		const conversionRow = targetConversionRows[index];
 
 		seedRanges.forEach((seedRange) => {
-			const intersect = findLowestIntersectionPoint(seedRange, conversionRange);
-			if (intersect !== null) intersections.push(intersect + conversionRange.incrementBy);
+			const intersect = findLowestIntersectionPoint(seedRange, conversionRow.source);
+			if (intersect !== null) intersections.push(intersect + conversionRow.incrementBy);
 		});
 
 		index++;

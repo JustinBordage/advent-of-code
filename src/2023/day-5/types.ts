@@ -5,17 +5,13 @@ export type Almanac = {
 
 export type ConversionTable = {
 	sourceType: string; // "seed" in "seed-to-soil map:"
-	targetType: string; // "soil" in "seed-to-soil map:"
-	data: ConversionData[];
+	destinationType: string; // "soil" in "seed-to-soil map:"
+	rows: ConversionRow[];
 };
 
-export type ConversionData = {
-	/** The starting range of the source (Inclusive) */
-	sourceStart: number;
-	/** The ending range of the source (Inclusive) */
-	sourceEnd: number;
-	targetStart: number;
-	targetEnd: number;
+export type ConversionRow = {
+	source: Range;
+	destination: Range;
 	/** The amount to increment the source
 	 *  value by to find to target value. */
 	incrementBy: number;
