@@ -1,4 +1,4 @@
-import { extractFileLines, sumOf } from "../../common/helpers";
+import { readFileContents, sumOf } from "../../common/helpers";
 import { PartNumber, SymbolParts } from "./types";
 
 const SYMBOL_PATTERN = /[*\-$@=#+/%&]/g;
@@ -83,8 +83,8 @@ function sumOfGearRatios(symbolParts: SymbolParts[]): number {
 
 // ===== Day 3: Gear Ratios =====
 // https://adventofcode.com/2023/day/3
-async function executeAdventOfCodeDay3() {
-	const rawInputData = await extractFileLines("./input.txt", __dirname);
+function executeAdventOfCodeDay3() {
+	const rawInputData = readFileContents("./input.txt", __dirname).split("\n");
 
 	const partNumberPositions = rawInputData.map(extractAllPartNumbers);
 	const symbolParts = extractSymbolParts(rawInputData, partNumberPositions, SYMBOL_PATTERN);

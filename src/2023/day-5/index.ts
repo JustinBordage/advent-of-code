@@ -1,4 +1,4 @@
-import { extractFileLines } from "../../common/helpers";
+import { readFileContents } from "../../common/helpers";
 import { parseAlmanac } from "./parser";
 import { flattenConversionTables } from "./optimizer";
 import { ConversionTable, Range } from "./types";
@@ -67,9 +67,8 @@ export function findLowestSeedLocationInSeedRanges(seeds: number[], seedToLocati
 
 // ===== Day 5: If You Give A Seed A Fertilizer =====
 // https://adventofcode.com/2023/day/5
-async function executeAdventOfCodeDay5() {
-	const rawAlmanac = (await extractFileLines("./input.txt", __dirname))
-		.join("\n");
+function executeAdventOfCodeDay5() {
+	const rawAlmanac = readFileContents("./input.txt", __dirname);
 
 	// Avg: 0.14593ms | 10000 Cycles
 	const { seeds, conversionTables } = parseAlmanac(rawAlmanac);

@@ -1,4 +1,4 @@
-import { extractFileLines } from "../../common/helpers";
+import { readFileContents } from "../../common/helpers";
 import { mergeSort } from "./sorting-algo";
 import { CamelPlay, HandType } from "./types";
 
@@ -93,8 +93,8 @@ function calcTotalWinnings(rawInput: string[], withJokers: boolean) {
 
 // ===== Day 7: Camel Cards =====
 // https://adventofcode.com/2023/day/7
-async function executeAdventOfCodeDay7() {
-	const rawInput = (await extractFileLines("./input.txt", __dirname));
+function executeAdventOfCodeDay7() {
+	const rawInput = readFileContents("./input.txt", __dirname).split("\n");
 
 	// Avg: 1.52312ms | 10 Cycles
 	// Avg: 0.99500ms | 100 Cycles

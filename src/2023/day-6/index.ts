@@ -1,4 +1,4 @@
-import { extractFileLines } from "../../common/helpers";
+import { readFileContents } from "../../common/helpers";
 import { RaceInfo } from "./types";
 
 function parseRaceInfoPart1(rawInput: string[]) {
@@ -97,8 +97,9 @@ function solvePart2(rawInput: string[]): number {
 
 // ===== Day 6: Wait For It =====
 // https://adventofcode.com/2023/day/6
-async function executeAdventOfCodeDay6() {
-	const rawInput: string[] = (await extractFileLines("./input.txt", __dirname));
+function executeAdventOfCodeDay6() {
+	const rawInput = readFileContents("./input.txt", __dirname)
+		.split("\n");
 
 	// Avg: 0.01280ms | 10 Cycles
 	// Avg: 0.00300ms | 100 Cycles

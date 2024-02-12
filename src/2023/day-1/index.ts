@@ -1,4 +1,4 @@
-import { extractFileLines } from "../../common/helpers";
+import { readFileContents } from "../../common/helpers";
 
 function extractCalibrationValue(rawCalibrationValue: string): number {
 	const rawNumValues = rawCalibrationValue.match(/\d/g);
@@ -39,8 +39,8 @@ function calcCalibrationSum(rawCalibrationValues: string[]): number {
 
 // ===== Day 1: Trebuchet?! =====
 // https://adventofcode.com/2023/day/1
-async function executeAdventOfCodeDay1() {
-	const inputData = (await extractFileLines("./input.txt", __dirname));
+function executeAdventOfCodeDay1() {
+	const inputData = readFileContents("./input.txt", __dirname).split("\n");
 	const substitutedInputData = inputData.map(substituteTextDigits);
 
 	const partOneAnswer = calcCalibrationSum(inputData);

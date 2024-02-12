@@ -1,4 +1,4 @@
-import { extractFileLines, sumOf } from "../../common/helpers";
+import { readFileContents, sumOf } from "../../common/helpers";
 import { ScratchCard } from "./types";
 
 function parseNumsList(rawNumsList: string): number[] {
@@ -73,8 +73,9 @@ function sumOfAllScratchCardCopies(scratchCards: ScratchCard[]): number {
 
 // ===== Day 4: Scratchcards =====
 // https://adventofcode.com/2023/day/4
-async function executeAdventOfCodeDay4() {
-	const scratchCards = (await extractFileLines("./input.txt", __dirname))
+function executeAdventOfCodeDay4() {
+	const scratchCards = readFileContents("./input.txt", __dirname)
+		.split("\n")
 		.map(parseScratchCard);
 
 	const partOneAnswer = sumOfScratchCardPoints(scratchCards);

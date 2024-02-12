@@ -1,4 +1,4 @@
-import { extractFileLines } from "../../common/helpers";
+import { readFileContents } from "../../common/helpers";
 import { ColorQuantities, ColorQuantityResults, GameData, SetResult } from "./types";
 
 function parseSetResult(setResult: string): SetResult {
@@ -73,8 +73,9 @@ function calcSumOfCubeSetPower(inputData: GameData[]) {
 
 // ===== Day 2: Cube Conundrum =====
 // https://adventofcode.com/2023/day/2
-async function executeAdventOfCodeDay2() {
-	const inputData = (await extractFileLines("./input.txt", __dirname))
+function executeAdventOfCodeDay2() {
+	const inputData = readFileContents("./input.txt", __dirname)
+		.split("\n")
 		.map(parseGameData);
 
 	const availColorQuantities: ColorQuantities = {
