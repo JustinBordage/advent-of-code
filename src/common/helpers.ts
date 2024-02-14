@@ -1,6 +1,5 @@
 import path from "path";
 import fs from "fs";
-import readline from "readline";
 
 /** Reads the contents of an Advent of Code "input.txt" file.
  *
@@ -26,4 +25,24 @@ export function sumOf(numbers: number[]) {
  *  @remark This is intended for formatting logged data. */
 export function numPadStart(num: number, length: number, fillString: string = " ") {
 	return num.toString().padStart(length, fillString);
+}
+
+/** Creates an array with the range of numbers.
+ *
+ *  @param start The first number in the range (Inclusive).
+ *  @param end The last number in the range (Exclusive).
+ *
+ *  @remark This is being kept for use in
+ *   early prototyping of AoC solutions. */
+export function createIntRangeArray(start: number, end: number) {
+	return Array.from(Array(end - start).keys()).map((_, i) => i + start);
+}
+
+/** Checks if the value is within the bounds of a range.
+ *
+ *  @param value The value to check.
+ *  @param lowerLimit The lower bounds to check (Inclusive).
+ *  @param upperLimit The upper bounds to check (Inclusive). */
+export function isWithinBounds(value: number, lowerLimit: number, upperLimit: number): boolean {
+	return value >= lowerLimit && value <= upperLimit;
 }
