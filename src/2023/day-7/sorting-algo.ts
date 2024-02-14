@@ -1,8 +1,11 @@
 /** A pure function that sorts an array of items.
  *
- *  @return The sorted item array. */
+ *  @return The sorted item array.
+ *
+ *  @remark This only performs a shallow clone. So if sorting a list
+ *   of objects, the objects will still be their original references. */
 export function mergeSort<T>(arr: T[], compareFn: (a: T, b: T) => boolean): T[] {
-	const arrToSort = Array.from(arr); // Shallow Clone
+	const arrToSort = [...arr];
 	doSort(arrToSort, 0, arrToSort.length - 1, compareFn);
 	return arrToSort;
 }
